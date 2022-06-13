@@ -38,6 +38,13 @@
                 <div class="containChatList">
                     <div class="chatList">
                         <div
+                            v-if="chatListEmpty"
+                            class="chatListDisplayCard"
+                        >
+                            <p>Chat list initializing, just a moment...</p>
+                        </div>
+                        <div
+                            v-else
                             v-for="chat in chatroomList"
                             :key="chat._id"
                             class="chatListDisplayCard row"
@@ -92,6 +99,11 @@ export default {
             autoUpdateIntervalID: undefined,
             userConfirmed: false
         };
+    },
+    computed: {
+        chatListEmpty() {
+            return (this.chatroomList.length === 0);
+        },
     },
     watch: {
         chosenChatroom() {
