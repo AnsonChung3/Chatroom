@@ -1,17 +1,21 @@
+function LoadPage(component) {
+    return () => import(`src/pages/${component}.vue`);
+};
 
 const routes = [
     {
         path: "/",
         component: () => import("layouts/MainLayout.vue"),
         children: [
-            { path: "", component: () => import("pages/Index.vue") }
+            { path: "", component: LoadPage("Index") }
         ]
     },
     {
         path: "/template",
         component: () => import("layouts/SolarizedDarkLayout.vue"),
         children: [
-            { path: "", component: () => import("pages/PageTemplate.vue") }
+            { path: "", component: LoadPage("PageTemplate") },
+            { path: "test", component: LoadPage("test") },
         ]
     },
 

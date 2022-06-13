@@ -1,0 +1,25 @@
+first, cd into the project/back folder
+    cd [path]
+
+then build docker image, this will name the image from the root folder
+    docker build -t anson_backend .
+    or  docker build -t <name of image> .
+
+# if there is no network created beforehand, should create it now
+    docker network create ansons_network
+    or  docker network create <name of network>
+
+then run the mongo official image, there is none download before, this will do that for you
+set up username and password, named the container to be mongodb
+    docker run --name mongodb --network ansons_network -d -e MONGO_INITDB_ROOT_USERNAME=Anson -e MONGO_INITDB_ROOT_PASSWORD=password mongo
+    or docker run --name <container_name> --network <network_name> -d -e MONGO_INITDB_ROOT_USERNAME=username -e MONGO_INITDB_ROOT_PASSWORD=password mongo
+    mongo image id when template was developing: 27dd1be4bed1
+
+run both backend container and mongo container at port 8181
+since port 8080 is reserved for frontend
+    docker run --name anson_backend_container --network ansons_network -d -p 8181:8080 -e MONGODB_CONNSTRING=mongodb://Anson:password@mongodb anson_backend
+    or docker run --name <backend_container_name>_container --network <network_name> -d -p <port>:8080 -e MONGODB_CONNSTRING=mongodb://username:password@<mongo_container_name> <backend_image_name>
+
+
+    docker kill anson_backend_container && docker rm anson_backend_container
+    docker kill mongodb && docker rm mongodb

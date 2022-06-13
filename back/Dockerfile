@@ -2,6 +2,7 @@ FROM python:3
 WORKDIR D/Coding/FrontBackCombinedProto/back
 RUN pip install aiohttp
 RUN pip install aiohttp_cors
+RUN python3 -m pip install motor
 COPY *.py .
 
 # This allows the port 8080 to talk outside of this container
