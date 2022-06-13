@@ -16,12 +16,6 @@ def setup_views():
     chatrooms = db.chatroom_collection
     messages = db.msg_collection
 
-async def do_find(chatroom_id):
-    list_of_msg = []
-    async for msg in messages.find({'_id': ObjectId(chatroom_id)}):
-        list_of_msg.append(msg)
-    return list_of_msg
-
 async def find_init_chat(id):
     result = []
     async for msg in messages.find( { "chatroomId": id } ).sort('timeStamp', 1).limit(100):
@@ -59,7 +53,6 @@ async def create_chatroom(request):
     result = await chatrooms.insert_one(document)
     return web.json_response(str(result.inserted_id))
 
-# this is the equivalent of prototype async def do_find() because the one for msg has filter/sort to it
 async def find_chatrooms():
     list_of_chatrooms = []
     # chatrooms is the global variabel set at the start of the app
