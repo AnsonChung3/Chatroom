@@ -19,8 +19,8 @@
                 <div class="containChatList">
                     <div class="chatList">
                         <div
-                            v-for="(chat, i) in chatroomList"
-                            :key="i"
+                            v-for="chat in chatroomList"
+                            :key="chat._id"
                             class="chatListDisplayCard row"
                             outline
                         >
