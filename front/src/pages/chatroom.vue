@@ -27,7 +27,7 @@
                             <p class="col-9">{{ chat.name }}</p>
                             <button
                                 class="enterChatBtn"
-                                @click="initChat(chat._id)"
+                                @click="enterChat(chat._id)"
                             >
                                 Enter chatroom
                             </button>
@@ -105,8 +105,8 @@ export default {
                     console.log(error);
                 });
         },
-        initChat(chatId) {
-            this.$api.get(`api/init_chat/${chatId}`)
+        enterChat(chatId) {
+            this.$api.get(`api/enter_chat/${chatId}`)
                 .then(response => {
                     this.chosenChatroom = chatId;
                     this.msgList = response.data;
@@ -140,7 +140,7 @@ export default {
         },
         getMsgs() {
             if (this.msgList.length === 0) {
-                this.initChat(this.chosenChatroom);
+                this.enterChat(this.chosenChatroom);
                 return;
             }
             const latestTimeStampInChat = this.msgList[this.msgList.length - 1].timeStamp;

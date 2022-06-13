@@ -16,16 +16,16 @@ def setup_views():
     chatrooms = db.chatroom_collection
     messages = db.msg_collection
 
-async def find_init_chat(id):
+async def find_enter_chat(id):
     result = []
     async for msg in messages.find( { "chatroomId": id } ).sort('timeStamp', 1).limit(100):
         msg["_id"] = str(msg["_id"])
         result.append(msg)
     return result
 
-async def init_chat(request):
+async def enter_chat(request):
     chatroomId = request.match_info.get('chatId', None)
-    result = await find_init_chat(chatroomId)
+    result = await find_enter_chat(chatroomId)
     return web.json_response(result)
 
 async def find_chatroom_msgs(id, timeStamp):
