@@ -9,7 +9,7 @@
             <input
                 v-model="userName"
                 placeholder="What's your name?"
-                style="margin: 0% 2% 0% 0%; min-width: 20em"
+                style="margin: 0% 2% 0% 0%; width: 20em"
             />
             <q-btn
                 label="confirm"
@@ -27,7 +27,7 @@
                     <input
                         v-model="chatName"
                         placeholder="Input name for new chat"
-                        style="margin: 0% 2% 0% 0%; min-width: 20em"
+                        style="margin: 0% 2% 2% 0%; width: 20em"
                     />
                     <q-btn
                         label="create"
@@ -80,7 +80,7 @@
                 <input
                     placeholder="Enter message"
                     v-model="message"
-                    style="margin: 2% 2% 0% 0%; min-width: 20em"
+                    style="margin: 2% 2% 0% 0%; width: 20em"
                 />
                 <q-btn
                     label="send"
@@ -227,7 +227,7 @@ export default {
 <style scoped>
 .containChatList {
     overflow-y: auto;
-    max-height: 50vw
+    max-height: 25em
 }
 .chatList {
     border: 2px solid #93a1a1;
@@ -235,7 +235,7 @@ export default {
     padding: 1% 1% 2% 1%;
     min-height: 6em;
     max-width: 80%;
-    margin: 5% 0% 5% 0%
+    margin: 5% 0% 5% 0%;
 }
 .chatListDisplayCard {
     background: #003847;
