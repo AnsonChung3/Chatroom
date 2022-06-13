@@ -23,3 +23,7 @@ since port 8080 is reserved for frontend
 
     docker kill anson_backend_container && docker rm anson_backend_container
     docker kill mongodb && docker rm mongodb
+
+the official image for mongo was updated after the start of the project,
+closest version to the initial one would be 5.0.9
+running latest mongo image when developing
