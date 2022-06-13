@@ -114,6 +114,9 @@ export default {
         msgListEmpty() {
             return (this.msgList.length === 0);
         },
+        isSendDisabled() {
+            return !(this.userName !== "" && this.message !== "" && this.chosenChatroom !== undefined);
+        }
     },
     watch: {
         chosenChatroom() {
