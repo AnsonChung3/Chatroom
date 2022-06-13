@@ -62,9 +62,16 @@
                 </div>
             </div>
             <div class="rightOfScreen col">
-                <h5>right of screen</h5>
+                <h5 v-if="!chosenChatroom">Join a chat!</h5>
+                <h5 v-else> You are in: {{ inChatroom() }}</h5>
                 <div class="msgDisplayField">
-                    <p v-for="msg in msgList" :key="msg.timeStamp">
+                    <p v-if="!chosenChatroom"> Not chatting at the moment </p>
+                    <p v-else-if="msgListEmpty"> Hooray! You are the first person who gets here! Say something!</p>
+                    <p
+                        v-else
+                        v-for="msg in msgList"
+                        :key="msg.timeStamp"
+                    >
                         {{ msg.name }} : {{ msg.message }}
                         <br>
                         ({{ displayTime(msg.timeStamp) }})
@@ -104,6 +111,9 @@ export default {
         chatListEmpty() {
             return (this.chatroomList.length === 0);
         },
+        msgListEmpty() {
+            return (this.msgList.length === 0);
+        },
     },
     watch: {
         chosenChatroom() {
@@ -141,6 +151,9 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },
+        inChatroom() {
+            return this.chatroomList.find(chat => chat._id === this.chosenChatroom).name;
         },
         sendMsg() {
             const document = {
