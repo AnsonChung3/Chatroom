@@ -1,8 +1,6 @@
 import views
-import demo_views
 
 def setup_routes(app):
-    app.router.add_route("GET", "/template/test", demo_views.test)
     # app.router.add_route("GET", "/find_one/{msg_id}", views.find_one)
     app.router.add_route("GET", "/init_chat/{chatId}", views.init_chat)
     app.router.add_route("GET", "/get_msgs/{chatroomId}/{timeStamp}", views.get_chatroom_msgs)
