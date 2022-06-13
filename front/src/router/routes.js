@@ -16,6 +16,7 @@ const routes = [
         children: [
             { path: "", component: LoadPage("PageTemplate") },
             { path: "test", component: LoadPage("test") },
+            { path: "chatroom", component: LoadPage("chatroom") }
         ]
     },
 
