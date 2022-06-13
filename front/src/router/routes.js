@@ -15,7 +15,6 @@ const routes = [
         component: () => import("layouts/SolarizedDarkLayout.vue"),
         children: [
             { path: "", component: LoadPage("PageTemplate") },
-            { path: "test", component: LoadPage("test") },
             { path: "chatroom", component: LoadPage("chatroom") }
         ]
     },
