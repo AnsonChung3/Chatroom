@@ -86,15 +86,9 @@ export default {
             chatName: "",
             userName: "",
             message: "",
-            chatroomList: [
-                { name: "Anson" }, { name: "Nathan" }
-            ],
-            userList: [
-                { name: "Anson" }, { name: "Nathan" }
-            ],
+            chatroomList: [],
             msgList: [],
             chosenChatroom: undefined,
-            resultText: "Defualt result text here",
             autoUpdateIntervalID: undefined,
             userConfirmed: false
         };
@@ -120,8 +114,6 @@ export default {
             this.$api.post("api/create_chatroom", { document })
                 .then(response => {
                     document._id = response.data;
-                    console.log("create chatroom, on succes, get response, overwrite result text");
-                    this.resultText = document;
                     this.chatroomList.push(document);
                 })
                 .catch(error => {
@@ -191,14 +183,10 @@ export default {
     created() {
         this.$api.get("api/get_chatrooms")
             .then(response => {
-                // there should be an if check, see if there is any set up chatroom
-                // since i don't always restart the mongodb container
-                // if there is nothing in the chatroom collection
-                // here should be the place to create a default one
+                // check if there is existing chatroom, if none, create one
                 if (response.data.length === 0) {
                     this.createChatroom();
                 }
-                // reponse.data is object, Object.values() returns an array of a given object's property values
                 this.chatroomList = Object.values(response.data);
             })
             .catch(error => {
