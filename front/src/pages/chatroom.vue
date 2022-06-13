@@ -1,6 +1,25 @@
 <template>
     <div>
         <h3>Welcome to Anson's chatroom!</h3>
+        <div v-if="!userConfirmed">
+            <p>
+                First things first! Please input your name before joining any chat.<br>
+                Beware! Once confirmed, this can't be changed.
+            </p>
+            <input
+                v-model="userName"
+                placeholder="What's your name?"
+                style="margin: 0% 2% 0% 0%; min-width: 20em"
+            />
+            <q-btn
+                label="confirm"
+                @click="confirmUserName"
+                outline
+            />
+        </div>
+        <div v-else>
+            <p>Hello, {{ userName }}! Come join our chat!</p>
+        </div>
         <div class="row">
             <div class="leftOfScreen col-5">
                 <h5>List of Chatrooms</h5>
@@ -76,7 +95,8 @@ export default {
             msgList: [],
             chosenChatroom: undefined,
             resultText: "Defualt result text here",
-            autoUpdateIntervalID: undefined
+            autoUpdateIntervalID: undefined,
+            userConfirmed: false
         };
     },
     watch: {
@@ -88,6 +108,9 @@ export default {
         }
     },
     methods: {
+        confirmUserName() {
+            this.userConfirmed = true;
+        },
         createChatroom() {
             const chatName = (this.chatName === "") ? "Anson's Default Chatroom" : this.chatName;
             this.chatName = "";
