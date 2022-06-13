@@ -165,16 +165,8 @@ export default {
                 chatroomId: this.chosenChatroom,
                 timeStamp: Date.now()
             };
-            // variable document is passd in as payload
-            // however, it needs to be inside a set of curly braces
-            // this is short hand for { document: document} sicne key:value is the same
-            // this.$api.post("api/insert_msg", { document })
             this.$api.post("api/send_msg", { document })
                 .then(response => {
-                    // on success, backend should return str(result.inserted_id)
-                    // but this is useless for the actual app
-                    // it's only here to let know of success
-                    this.resultText = `msg : "${document.message}" is sent.`;
                     this.message = "";
                 })
                 .catch(error => {
@@ -189,12 +181,6 @@ export default {
             const latestTimeStampInChat = this.msgList[this.msgList.length - 1].timeStamp;
             this.$api.get(`api/get_msgs/${this.chosenChatroom}/${latestTimeStampInChat}`)
                 .then(response => {
-                    // response.data is an array
-                    // problem now is to make sure i only get new msgs from the backend
-                    // so latest updates
-                    // and put it at the beginning of the array, so array.unshift()
-                    // this.resultText = response.data;
-                    // this.msgList = response.data;
                     response.data.forEach(msg => this.msgList.push(msg));
                 })
                 .catch(error => {
