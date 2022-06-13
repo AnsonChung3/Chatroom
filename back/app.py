@@ -4,7 +4,7 @@ from routes import setup_routes
 import motor.motor_asyncio
 import views
 
-# create a new aiohttp applcation
+# create a new aiohttp application
 # this is responsible for all request related stuff
 app = web.Application()
 # this is responsible for adding the end point
