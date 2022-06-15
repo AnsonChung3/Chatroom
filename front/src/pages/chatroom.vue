@@ -1,27 +1,27 @@
 <template>
-    <div>
-        <div v-if="!userConfirmed">
-            <p>
-                First things first! Please input your name before joining any chat.<br>
-                Beware! Once confirmed, this can't be changed.
-            </p>
-            <input
-                v-model="userName"
-                placeholder="What's your name?"
-                style="margin: 0% 2% 0% 0%; width: 20em"
-            />
-            <q-btn
-                label="confirm"
-                @click="confirmUserName"
-                outline
-            />
-        </div>
-        <div v-else>
-            <p>Hello, {{ userName }}! Come join our chat!</p>
-        </div>
+    <div class="chatroom-top-level-css">
         <h1>Welcome to Anson's chatroom!</h1>
         <div class="row">
             <div class="leftOfScreen col-5">
+                <div v-if="!userConfirmed">
+                    <p>
+                        First things first! Please input your name before joining any chat.<br>
+                        Beware! <span style="font-weight: bold">Once confirmed, this can't be changed.</span>
+                    </p>
+                    <input
+                        v-model="userName"
+                        placeholder="What's your name?"
+                        style="margin: 0% 2% 0% 0%; width: 20em"
+                    />
+                    <q-btn
+                        label="confirm"
+                        @click="confirmUserName"
+                        outline
+                    />
+                </div>
+                <div v-else>
+                    <p>Hello, {{ userName }}! Come join our chat!</p>
+                </div>
                 <h2>List of Chatrooms</h2>
                 <div>
                     <input
@@ -65,7 +65,7 @@
                 <h2 v-if="!chosenChatroom">Join a chat!</h2>
                 <h2 v-else> You are in: {{ activeChatroom }}</h2>
                 <div class="msgDisplayField">
-                    <p v-if="!chosenChatroom"> Not chatting at the moment </p>
+                    <p v-if="!chosenChatroom"> You are not in a chatroom yet </p>
                     <p v-else-if="msgListEmpty"> Hooray! You are the first person who gets here! Say something!</p>
                     <p
                         v-else
