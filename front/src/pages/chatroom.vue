@@ -3,6 +3,45 @@
         <h1>Welcome to Anson's chatroom!</h1>
         <div class="row">
             <div class="leftOfScreen col-5">
+                <h2>List of Chatrooms</h2>
+                <div class="chatroomList">
+                    <div
+                        v-if="chatroomListEmpty"
+                        class="chatroomListDisplayCard"
+                    >
+                        <p>Chat list initializing, just a moment...</p>
+                    </div>
+                    <div
+                        v-else
+                        v-for="chat in chatroomList"
+                        :key="chat._id"
+                        class="chatroomListDisplayCard row"
+                        outline
+                    >
+                        <p class="col-9">{{ chat.name }}</p>
+                        <button
+                            class="enterChatroomBtn"
+                            @click="enterChatroom(chat._id)"
+                        >
+                            Enter chatroom
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <input
+                        v-model="chatroomName"
+                        placeholder="Or, make a new one"
+                    />
+                    <q-btn
+                        label="create"
+                        @click="createChatroom"
+                        outline
+                    />
+                </div>
+            </div>
+            <div class="rightOfScreen col">
+                <h2 v-if="!chosenChatroom">Join a chat!</h2>
+                <h2 v-else> You are in: {{ activeChatroom }}</h2>
                 <div v-if="!userConfirmed">
                     <p>
                         First things first! Please input your name before joining any chat.<br>
@@ -11,7 +50,6 @@
                     <input
                         v-model="userName"
                         placeholder="What's your name?"
-                        style="margin: 0% 2% 0% 0%; width: 20em"
                     />
                     <q-btn
                         label="confirm"
@@ -20,74 +58,30 @@
                     />
                 </div>
                 <div v-else>
-                    <p>Hello, {{ userName }}! Come join our chat!</p>
-                </div>
-                <h2>List of Chatrooms</h2>
-                <div>
+                    <div class="msgDisplayField">
+                        <p v-if="!chosenChatroom"> You are not in a chatroom yet </p>
+                        <p v-else-if="msgListEmpty"> Hooray! You are the first person who gets here! Say something!</p>
+                        <p
+                            v-else
+                            v-for="msg in msgList"
+                            :key="msg.timeStamp + msg.name"
+                        >
+                            {{ msg.name }} : {{ msg.message }}
+                            <br>
+                            ({{ displayTime(msg.timeStamp) }})
+                        </p>
+                    </div>
                     <input
-                        v-model="chatroomName"
-                        placeholder="Input name for new chatroom"
-                        style="margin: 0% 2% 2% 0%; width: 20em"
+                        :placeholder="msgInputPlaceholder"
+                        v-model="message"
                     />
                     <q-btn
-                        label="create"
-                        @click="createChatroom"
+                        label="send"
+                        @click="sendMsg"
+                        :disabled="isSendDisabled"
                         outline
                     />
                 </div>
-                <div class="containChatroomList">
-                    <div class="chatroomList">
-                        <div
-                            v-if="chatroomListEmpty"
-                            class="chatroomListDisplayCard"
-                        >
-                            <p>Chat list initializing, just a moment...</p>
-                        </div>
-                        <div
-                            v-else
-                            v-for="chat in chatroomList"
-                            :key="chat._id"
-                            class="chatroomListDisplayCard row"
-                            outline
-                        >
-                            <p class="col-9">{{ chat.name }}</p>
-                            <button
-                                class="enterChatroomBtn"
-                                @click="enterChatroom(chat._id)"
-                            >
-                                Enter chatroom
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="rightOfScreen col">
-                <h2 v-if="!chosenChatroom">Join a chat!</h2>
-                <h2 v-else> You are in: {{ activeChatroom }}</h2>
-                <div class="msgDisplayField">
-                    <p v-if="!chosenChatroom"> You are not in a chatroom yet </p>
-                    <p v-else-if="msgListEmpty"> Hooray! You are the first person who gets here! Say something!</p>
-                    <p
-                        v-else
-                        v-for="msg in msgList"
-                        :key="msg.timeStamp + msg.name"
-                    >
-                        {{ msg.name }} : {{ msg.message }}
-                        <br>
-                        ({{ displayTime(msg.timeStamp) }})
-                    </p>
-                </div>
-                <input
-                    placeholder="Enter message"
-                    v-model="message"
-                    style="margin: 2% 2% 0% 0%; width: 20em"
-                />
-                <q-btn
-                    label="send"
-                    @click="sendMsg"
-                    :disabled="isSendDisabled"
-                    outline
-                />
             </div>
         </div>
     </div>
@@ -119,6 +113,9 @@ export default {
         },
         activeChatroom() {
             return this.chatroomList.find(chat => chat._id === this.chosenChatroom).name;
+        },
+        msgInputPlaceholder() {
+            return `${this.userName} says...`;
         }
     },
     watch: {
@@ -212,38 +209,64 @@ export default {
 </script>
 
 <style scoped>
-.containChatroomList {
-    overflow-y: auto;
-    max-height: 25em
+h1 {
+    font-size: 5vw;
+    margin: 2% 0% 2% 0%
+}
+h2 {
+    font-size: 3vw;
+    margin: 5px 0px 5px 0px
+}
+p {
+    font-size: 1vw
+}
+input {
+    margin: 0px 10px 0px 0px;
+    width: 20em;
+    font-size: 1vw
+}
+.chatroom-top-level-css {
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto
+}
+.leftOfScreen {
+    padding-left: 1%
+}
+.rightOfScreen {
+    padding-left: 2%
 }
 .chatroomList {
     border: 2px solid #93a1a1;
     border-radius: 10px;
-    padding: 1% 1% 2% 1%;
-    min-height: 6em;
-    max-width: 80%;
-    margin: 5% 0% 5% 0%;
+    padding: 0.5%;
+    margin: 10px 0px 10px 0px;
+    height: 20em;
+    width: 95%;
+    overflow: auto
 }
 .chatroomListDisplayCard {
     background: #003847;
     padding: 1% 1% 1% 3%;
-    margin: 5px 2px 0px 2px
+    margin: 0.3vw;
+    overflow-wrap: break-word;
+    hyphens: auto
+}
+.msgDisplayField {
+    border: 2px solid #93a1a1;
+    border-radius: 10px;
+    margin: 10px 0px 10px 0px;
+    padding: 1%;
+    height: 20em;
+    max-width: 80%;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    hyphens: auto
 }
 .enterChatroomBtn {
     background: #00212B;
     color: #93a1a1;
     border: 1px solid #93a1a1;
     border-radius: 5px
-}
-.msgDisplayField {
-    border: 2px solid #93a1a1;
-    border-radius: 10px;
-    padding: 1%;
-    height: 20em;
-    max-width: 80%;
-    overflow-y: auto;
-}
-.rightOfScreen {
-    padding: 0% 0% 0% 2%
 }
 </style>
