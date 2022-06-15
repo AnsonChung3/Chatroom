@@ -115,7 +115,7 @@ export default {
             return (this.msgList.length === 0);
         },
         isSendDisabled() {
-            return !(this.userName !== "" && this.message !== "" && this.chosenChatroom !== undefined);
+            return (this.userName === "" || this.message === "" || this.chosenChatroom === undefined);
         },
         activeChatroom() {
             return this.chatroomList.find(chat => chat._id === this.chosenChatroom).name;
