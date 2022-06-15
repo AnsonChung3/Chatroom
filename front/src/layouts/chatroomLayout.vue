@@ -31,7 +31,7 @@ export default {};
 .customer-layout-top-css {
   background-color: #002b36;
   color: #93a1a1;
-  padding: 3% 5% 10% 5%;
-  min-height: 100vh;
+  padding: 3% 5% 3% 5%;
+  height: 100vh
 }
 </style>

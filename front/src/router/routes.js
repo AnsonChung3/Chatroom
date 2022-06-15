@@ -12,7 +12,7 @@ const routes = [
     },
     {
         path: "/template",
-        component: () => import("layouts/SolarizedDarkLayout.vue"),
+        component: () => import("layouts/chatroomLayout.vue"),
         children: [
             { path: "", component: LoadPage("PageTemplate") },
             { path: "chatroom", component: LoadPage("chatroom") }
