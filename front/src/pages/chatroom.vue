@@ -70,7 +70,7 @@
                     <p
                         v-else
                         v-for="msg in msgList"
-                        :key="msg.timeStamp"
+                        :key="msg.timeStamp + msg.name"
                     >
                         {{ msg.name }} : {{ msg.message }}
                         <br>
