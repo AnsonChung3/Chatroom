@@ -11,7 +11,7 @@ const routes = [
         ]
     },
     {
-        path: "/template",
+        path: "/PortfolioProject",
         component: () => import("layouts/chatroomLayout.vue"),
         children: [
             { path: "", component: LoadPage("PageTemplate") },
