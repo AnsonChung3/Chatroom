@@ -149,10 +149,16 @@ export default {
                 });
         },
         enterChatroom(chatId) {
+            // this is to prevent repeat entrance of the same chatroom
+            if (chatId === this.chosenChatroom) {
+                return
+            }
             this.$api.get(`api/get_msgs/${chatId}`)
                 .then(response => {
+                    // on success, updating this.chosenChatroom triggers the watcher for auto update
+                    // replace this.msgList as a whole regardless of empty chatroom or not
                     this.chosenChatroom = chatId;
-                    response.data.forEach(msg => this.msgList.push(msg));
+                    this.msgList = response.data;
                 })
                 .catch(error => {
                     console.log(error);
