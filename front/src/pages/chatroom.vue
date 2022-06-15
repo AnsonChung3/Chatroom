@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h3>Welcome to Anson's chatroom!</h3>
         <div v-if="!userConfirmed">
             <p>
                 First things first! Please input your name before joining any chat.<br>
@@ -20,9 +19,10 @@
         <div v-else>
             <p>Hello, {{ userName }}! Come join our chat!</p>
         </div>
+        <h1>Welcome to Anson's chatroom!</h1>
         <div class="row">
             <div class="leftOfScreen col-5">
-                <h5>List of Chatrooms</h5>
+                <h2>List of Chatrooms</h2>
                 <div>
                     <input
                         v-model="chatroomName"
@@ -62,8 +62,8 @@
                 </div>
             </div>
             <div class="rightOfScreen col">
-                <h5 v-if="!chosenChatroom">Join a chat!</h5>
-                <h5 v-else> You are in: {{ inChatroom() }}</h5>
+                <h2 v-if="!chosenChatroom">Join a chat!</h2>
+                <h2 v-else> You are in: {{ activeChatroom }}</h2>
                 <div class="msgDisplayField">
                     <p v-if="!chosenChatroom"> Not chatting at the moment </p>
                     <p v-else-if="msgListEmpty"> Hooray! You are the first person who gets here! Say something!</p>
@@ -116,6 +116,9 @@ export default {
         },
         isSendDisabled() {
             return !(this.userName !== "" && this.message !== "" && this.chosenChatroom !== undefined);
+        },
+        activeChatroom() {
+            return this.chatroomList.find(chat => chat._id === this.chosenChatroom).name;
         }
     },
     watch: {
@@ -154,9 +157,6 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
-        },
-        inChatroom() {
-            return this.chatroomList.find(chat => chat._id === this.chosenChatroom).name;
         },
         sendMsg() {
             const document = {
