@@ -25,8 +25,8 @@
                 <h5>List of Chatrooms</h5>
                 <div>
                     <input
-                        v-model="chatName"
-                        placeholder="Input name for new chat"
+                        v-model="chatroomName"
+                        placeholder="Input name for new chatroom"
                         style="margin: 0% 2% 2% 0%; width: 20em"
                     />
                     <q-btn
@@ -35,11 +35,11 @@
                         outline
                     />
                 </div>
-                <div class="containChatList">
-                    <div class="chatList">
+                <div class="containChatroomList">
+                    <div class="chatroomList">
                         <div
-                            v-if="chatListEmpty"
-                            class="chatListDisplayCard"
+                            v-if="chatroomListEmpty"
+                            class="chatroomListDisplayCard"
                         >
                             <p>Chat list initializing, just a moment...</p>
                         </div>
@@ -47,13 +47,13 @@
                             v-else
                             v-for="chat in chatroomList"
                             :key="chat._id"
-                            class="chatListDisplayCard row"
+                            class="chatroomListDisplayCard row"
                             outline
                         >
                             <p class="col-9">{{ chat.name }}</p>
                             <button
-                                class="enterChatBtn"
-                                @click="enterChat(chat._id)"
+                                class="enterChatroomBtn"
+                                @click="enterChatroom(chat._id)"
                             >
                                 Enter chatroom
                             </button>
@@ -97,7 +97,7 @@
 export default {
     data() {
         return {
-            chatName: "",
+            chatroomName: "",
             userName: "",
             message: "",
             chatroomList: [],
@@ -108,7 +108,7 @@ export default {
         };
     },
     computed: {
-        chatListEmpty() {
+        chatroomListEmpty() {
             return (this.chatroomList.length === 0);
         },
         msgListEmpty() {
@@ -131,8 +131,8 @@ export default {
             this.userConfirmed = true;
         },
         createChatroom() {
-            const chatName = (this.chatName === "") ? "Anson's Default Chatroom" : this.chatName;
-            this.chatName = "";
+            const chatName = (this.chatroomName === "") ? "Anson's Default Chatroom" : this.chatroomName;
+            this.chatroomName = "";
             const document = {
                 name: chatName
             };
@@ -145,11 +145,11 @@ export default {
                     console.log(error);
                 });
         },
-        enterChat(chatId) {
-            this.$api.get(`api/enter_chat/${chatId}`)
+        enterChatroom(chatId) {
+            this.$api.get(`api/get_msgs/${chatId}`)
                 .then(response => {
                     this.chosenChatroom = chatId;
-                    this.msgList = response.data;
+                    response.data.forEach(msg => this.msgList.push(msg));
                 })
                 .catch(error => {
                     console.log(error);
@@ -174,12 +174,8 @@ export default {
                 });
         },
         getMsgs() {
-            if (this.msgList.length === 0) {
-                this.enterChat(this.chosenChatroom);
-                return;
-            }
-            const latestTimeStampInChat = this.msgList[this.msgList.length - 1].timeStamp;
-            this.$api.get(`api/get_msgs/${this.chosenChatroom}/${latestTimeStampInChat}`)
+            const latestTimeStampInChat = (this.msgList.length === 0) ? 0 : this.msgList[this.msgList.length - 1].timeStamp;
+            this.$api.get(`api/get_msgs/${this.chosenChatroom}?timeStamp=${latestTimeStampInChat}`)
                 .then(response => {
                     response.data.forEach(msg => this.msgList.push(msg));
                 })
@@ -197,7 +193,6 @@ export default {
     created() {
         this.$api.get("api/get_chatrooms")
             .then(response => {
-                // check if there is existing chatroom, if none, create one
                 if (response.data.length === 0) {
                     this.createChatroom();
                 }
@@ -211,11 +206,11 @@ export default {
 </script>
 
 <style scoped>
-.containChatList {
+.containChatroomList {
     overflow-y: auto;
     max-height: 25em
 }
-.chatList {
+.chatroomList {
     border: 2px solid #93a1a1;
     border-radius: 10px;
     padding: 1% 1% 2% 1%;
@@ -223,12 +218,12 @@ export default {
     max-width: 80%;
     margin: 5% 0% 5% 0%;
 }
-.chatListDisplayCard {
+.chatroomListDisplayCard {
     background: #003847;
     padding: 1% 1% 1% 3%;
     margin: 5px 2px 0px 2px
 }
-.enterChatBtn {
+.enterChatroomBtn {
     background: #00212B;
     color: #93a1a1;
     border: 1px solid #93a1a1;

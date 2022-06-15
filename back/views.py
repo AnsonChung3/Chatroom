@@ -34,27 +34,15 @@ async def create_chatroom(request):
     result = await chatrooms.insert_one(document)
     return web.json_response(str(result.inserted_id))
 
-async def enter_chat(request):
-    chatroomId = request.match_info.get('chatId', None)
-    result = await find_enter_chat(chatroomId)
-    return web.json_response(result)
-
-async def find_enter_chat(id):
-    result = []
-    async for msg in messages.find( { "chatroomId": id } ).sort('timeStamp', 1).limit(100):
-        msg["_id"] = str(msg["_id"])
-        result.append(msg)
-    return result
-
-async def get_chatroom_msgs(request):
+async def get_msgs(request):
     chatroomId = request.match_info.get('chatroomId', None)
-    timeStamp = int(request.match_info.get('timeStamp', None))
-    result = await find_chatroom_msgs(chatroomId, timeStamp)
+    timeStamp = int(request.query.get('timeStamp', 0))
+    result = await find_msgs(chatroomId, timeStamp)
     return web.json_response(result)
 
-async def find_chatroom_msgs(id, timeStamp):
+async def find_msgs(id, timeStamp):
     result = []
-    async for msg in messages.find( { "chatroomId": id, "timeStamp": { "$gt": timeStamp } } ).sort('timeStamp', -1).limit(100):
+    async for msg in messages.find( { "chatroomId": id, "timeStamp": { "$gt": timeStamp } } ).sort('timeStamp', 1).limit(100):
         msg["_id"] = str(msg["_id"])
         result.append(msg)
     return result
