@@ -20,13 +20,31 @@
                     >
                         <p class="col-9">{{ chat.name }}</p>
                         <button
-                            class="enterChatroomBtn"
+                            class="customElementHighlighting"
                             @click="enterChatroom(chat._id)"
                         >
                             Enter chatroom
                         </button>
                     </div>
                 </div>
+                <q-dialog v-model="emptyUserNameAlert">
+                    <q-card class="customElementHighlighting">
+                        <q-card-section>
+                            <h3>Hold up...</h3>
+                            <h4>...you should think of a cool name before barging in</h4>
+                        </q-card-section>
+
+                        <q-card-actions align="right">
+                            <button
+                                @click="!emptyUserNameAlert"
+                                class="emptyUserNameAlertBtn"
+                                v-close-popup
+                            >
+                                OK
+                            </button>
+                        </q-card-actions>
+                    </q-card>
+                </q-dialog>
                 <div>
                     <input
                         v-model="chatroomName"
@@ -98,7 +116,8 @@ export default {
             msgList: [],
             chosenChatroom: undefined,
             autoUpdateIntervalID: undefined,
-            userConfirmed: false
+            userConfirmed: false,
+            emptyUserNameAlert: false
         };
     },
     computed: {
@@ -146,9 +165,13 @@ export default {
                 });
         },
         enterChatroom(chatId) {
+            if (this.userConfirmed === false) {
+                this.emptyUserNameAlert = true;
+                return;
+            }
             // this is to prevent repeat entrance of the same chatroom
             if (chatId === this.chosenChatroom) {
-                return
+                return;
             }
             this.$api.get(`api/get_msgs/${chatId}`)
                 .then(response => {
@@ -263,7 +286,7 @@ input {
     overflow-wrap: break-word;
     hyphens: auto
 }
-.enterChatroomBtn {
+.customElementHighlighting {
     background: #00212B;
     color: #93a1a1;
     border: 1px solid #93a1a1;
