@@ -86,6 +86,8 @@
                         @click="sendMsg"
                         :disabled="isSendDisabled"
                         outline
+                        style="margin-right: 10px"
+                    />
                     <q-btn
                         v-if="!isShowingLatestMsg"
                         @click="autoScroll"
@@ -115,9 +117,9 @@ export default {
             message: "",
             chatroomList: [],
             msgList: [],
+            userConfirmed: false,
             chosenChatroom: undefined,
             autoUpdateIntervalID: undefined,
-            userConfirmed: false,
             isShowingLatestMsg: true,
             customAlert: false,
             customAlertText: ""
@@ -218,8 +220,6 @@ export default {
                     console.log(error);
                 });
         },
-        clear() {
-            clearInterval(this.autoUpdateIntervalID);
         confirmUserName() {
             if (this.userName === "") {
                 this.customAlert = true;
@@ -268,7 +268,7 @@ h2 {
     margin: 5px 0px 5px 0px
 }
 p {
-    font-size: 1vw
+    font-size: 1.2vw
 }
 input {
     margin: 0px 10px 0px 0px;
@@ -306,9 +306,9 @@ input {
     border: 2px solid #93a1a1;
     border-radius: 10px;
     margin: 10px 0px 10px 0px;
-    padding: 1%;
     height: 20em;
-    max-width: 80%;
+    padding: 1%;
+    width: 80%;
     overflow-y: auto;
     overflow-wrap: break-word;
     hyphens: auto
