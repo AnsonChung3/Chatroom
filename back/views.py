@@ -6,7 +6,7 @@ def setup_views():
     # this is not an endpoint
     # this is the init set up called in app.py
     # and to set gobal variable that can be called from any def in views.py
-    # new db and collections can be added with request from frontend
+    # new db and collections can be added with request from frontend but is not implemented for this project
     global client, db, chatrooms, messages
     connString = os.environ['MONGODB_CONNSTRING']
     client = AsyncIOMotorClient(connString, connect=True)
@@ -34,6 +34,7 @@ async def create_chatroom(request):
 
 async def get_msgs(request):
     chatroomId = request.match_info.get('chatroomId', None)
+    # default value for timeStamp is set to 0 to request all result
     timeStamp = int(request.query.get('timeStamp', 0))
     result = await do_find_msgs(chatroomId, timeStamp)
     return web.json_response(result)
