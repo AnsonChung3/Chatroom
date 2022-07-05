@@ -86,6 +86,12 @@
                         @click="sendMsg"
                         :disabled="isSendDisabled"
                         outline
+                    <q-btn
+                        v-if="!isShowingLatestMsg"
+                        @click="autoScroll"
+                        label="to bottom"
+                        icon="arrow_downward"
+                        outline
                     />
                 </div>
             </div>
@@ -112,6 +118,7 @@ export default {
             chosenChatroom: undefined,
             autoUpdateIntervalID: undefined,
             userConfirmed: false,
+            isShowingLatestMsg: true,
             customAlert: false,
             customAlertText: ""
         };
@@ -177,6 +184,7 @@ export default {
                     // replace this.msgList as a whole regardless of empty chatroom or not
                     this.chosenChatroom = chatId;
                     this.msgList = response.data;
+                    this.autoScroll();
                 })
                 .catch(error => {
                     console.log(error);
@@ -202,6 +210,9 @@ export default {
             this.$api.get(`api/get_msgs/${this.chosenChatroom}?timeStamp=${latestTimeStampInChat}`)
                 .then(response => {
                     response.data.forEach(msg => this.msgList.push(msg));
+                    if (this.isShowingLatestMsg) {
+                        this.autoScroll();
+                    }
                 })
                 .catch(error => {
                     console.log(error);
@@ -222,7 +233,14 @@ export default {
             }
             this.userConfirmed = true;
         },
+        checkAtBottom() {
+            const element = document.getElementById("msgDisplayField");
+            const max = element.scrollHeight - element.clientHeight;
+            this.isShowingLatestMsg = (element.scrollTop === max);
         },
+        autoScroll() {
+            const element = document.getElementById("msgDisplayField");
+            element.scrollTop = element.scrollHeight;
         }
     },
     created() {
