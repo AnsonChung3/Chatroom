@@ -34,7 +34,7 @@
                         class="chatroomListDisplayCard"
                     />
                 </div>
-                <div>
+                <div v-if="!isChatroomListEmpty">
                     <input
                         v-model="chatroomName"
                         placeholder="Or, make a new one"
