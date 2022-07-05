@@ -1,8 +1,6 @@
 from aiohttp import web
-import motor.motor_asyncio
+from motor.motor_asyncio import AsyncIOMotorClient
 import os
-from bson.objectid import ObjectId
-import asyncio
 
 def setup_views():
     # this is not an endpoint
@@ -11,7 +9,7 @@ def setup_views():
     # new db and collections can be added with request from frontend
     global client, db, chatrooms, messages
     connString = os.environ['MONGODB_CONNSTRING']
-    client = motor.motor_asyncio.AsyncIOMotorClient(connString, connect=True)
+    client = AsyncIOMotorClient(connString, connect=True)
     db = client.anson_database
     chatrooms = db.chatroom_collection
     messages = db.msg_collection
