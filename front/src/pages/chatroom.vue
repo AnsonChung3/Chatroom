@@ -147,6 +147,9 @@ export default {
             if (this.autoUpdateIntervalID !== undefined) {
                 clearInterval(this.autoUpdateIntervalID);
             }
+            if (this.chosenChatroom === undefined) {
+                return;
+            }
             this.autoUpdateIntervalID = setInterval(this.getMsgs, 1000);
         }
     },
