@@ -27,21 +27,12 @@
                     >
                         <p>Chat list initializing, just a moment...</p>
                     </div>
-                    <div
+                    <chatroomListDisplayCard
                         v-else
-                        v-for="chat in chatroomList"
-                        :key="chat._id"
-                        class="chatroomListDisplayCard row"
-                        outline
-                    >
-                        <p class="col-9">{{ chat.name }}</p>
-                        <button
-                            class="customElementHighlighting"
-                            @click="enterChatroom(chat._id)"
-                        >
-                            Enter chatroom
-                        </button>
-                    </div>
+                        :chatroomList="chatroomList"
+                        @enter-chatroom="enterChatroom"
+                        class="chatroomListDisplayCard"
+                    />
                 </div>
                 <div>
                     <input
@@ -104,7 +95,12 @@
 </template>
 
 <script>
+import chatroomListDisplayCard from "src/components/chatroomListDisplayCard.vue";
+
 export default {
+    components: {
+        chatroomListDisplayCard,
+    },
     data() {
         return {
             chatroomName: "",
