@@ -20,10 +20,10 @@ async def get_chatrooms(request):
 
 async def do_find_chatrooms():
     list_of_chatrooms = []
-    # chatrooms is the global variabel set at the start of the app
-    async for chat in chatrooms.find():
-        chat["_id"] = str(chat["_id"])
-        list_of_chatrooms.append(chat)
+    # chatrooms is the global variable set at the start of the app
+    async for room in chatrooms.find():
+        room["_id"] = str(room["_id"])
+        list_of_chatrooms.append(room)
     return list_of_chatrooms
 
 async def create_chatroom(request):
