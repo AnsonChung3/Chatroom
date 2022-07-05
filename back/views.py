@@ -15,10 +15,10 @@ def setup_views():
     messages = db.msg_collection
 
 async def get_chatrooms(request):
-    result = find_chatrooms()
+    result = do_find_chatrooms()
     return web.json_response(list(await result))
 
-async def find_chatrooms():
+async def do_find_chatrooms():
     list_of_chatrooms = []
     # chatrooms is the global variabel set at the start of the app
     async for chat in chatrooms.find():
@@ -35,10 +35,10 @@ async def create_chatroom(request):
 async def get_msgs(request):
     chatroomId = request.match_info.get('chatroomId', None)
     timeStamp = int(request.query.get('timeStamp', 0))
-    result = await find_msgs(chatroomId, timeStamp)
+    result = await do_find_msgs(chatroomId, timeStamp)
     return web.json_response(result)
 
-async def find_msgs(id, timeStamp):
+async def do_find_msgs(id, timeStamp):
     result = []
     async for msg in messages.find( { "chatroomId": id, "timeStamp": { "$gt": timeStamp } } ).sort('timeStamp', 1).limit(100):
         msg["_id"] = str(msg["_id"])
