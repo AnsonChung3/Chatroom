@@ -22,7 +22,7 @@
                 <h2>List of Chatrooms</h2>
                 <div class="chatroomList">
                     <div
-                        v-if="chatroomListEmpty"
+                        v-if="isChatroomListEmpty"
                         class="chatroomListDisplayCard"
                     >
                         <p>Chat list initializing, just a moment...</p>
@@ -76,8 +76,8 @@
                 <div v-else>
                     <div class="msgDisplayField">
                         <p v-if="!chosenChatroom"> You are not in a chatroom yet </p>
-                        <p v-else-if="msgListEmpty"> Hooray! You are the first person who gets here! Say something!</p>
                         <p
+                        <p v-else-if="isMsgListEmpty"> Hooray! You are the first person who gets here! Say something!</p>
                             v-else
                             v-for="msg in msgList"
                             :key="msg.timeStamp + msg.name"
@@ -120,10 +120,10 @@ export default {
         };
     },
     computed: {
-        chatroomListEmpty() {
+        isChatroomListEmpty() {
             return (this.chatroomList.length === 0);
         },
-        msgListEmpty() {
+        isMsgListEmpty() {
             return (this.msgList.length === 0);
         },
         isSendDisabled() {
