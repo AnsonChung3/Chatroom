@@ -65,18 +65,17 @@
                     />
                 </div>
                 <div v-else>
-                    <div class="msgDisplayField">
+                    <div
+                        id="msgDisplayField"
+                        class="msgDisplayField"
+                        :onscroll="checkAtBottom"
+                    >
                         <p v-if="!chosenChatroom"> You are not in a chatroom yet </p>
-                        <p
                         <p v-else-if="isMsgListEmpty"> Hooray! You are the first person who gets here! Say something!</p>
+                        <msgDisplayCard
                             v-else
-                            v-for="msg in msgList"
-                            :key="msg.timeStamp + msg.name"
-                        >
-                            {{ msg.name }} : {{ msg.message }}
-                            <br>
-                            ({{ displayTime(msg.timeStamp) }})
-                        </p>
+                            :msgList="msgList"
+                        />
                     </div>
                     <input
                         :placeholder="msgInputPlaceholder"
@@ -96,10 +95,12 @@
 
 <script>
 import chatroomListDisplayCard from "src/components/chatroomListDisplayCard.vue";
+import msgDisplayCard from "src/components/msgDisplayCard.vue";
 
 export default {
     components: {
         chatroomListDisplayCard,
+        msgDisplayCard
     },
     data() {
         return {
@@ -222,8 +223,6 @@ export default {
             this.userConfirmed = true;
         },
         },
-        displayTime(unix) {
-            return (new Date(unix).toLocaleString("en-GB"));
         }
     },
     created() {
