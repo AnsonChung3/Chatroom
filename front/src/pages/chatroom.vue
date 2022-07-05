@@ -1,5 +1,21 @@
 <template>
     <div class="chatroom-top-level-css">
+        <q-dialog v-model="customAlert">
+            <q-card class="customElementHighlighting">
+                <q-card-section>
+                    <p>{{ customAlertText }}</p>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                    <q-btn
+                        @click="!customAlert"
+                        v-close-popup
+                        label="ok"
+                        outline
+                    />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
         <h1>Welcome to Anson's chatroom!</h1>
         <div class="row">
             <div class="leftOfScreen col-5">
@@ -27,24 +43,6 @@
                         </button>
                     </div>
                 </div>
-                <q-dialog v-model="emptyUserNameAlert">
-                    <q-card class="customElementHighlighting">
-                        <q-card-section>
-                            <h3>Hold up...</h3>
-                            <h4>...you should think of a cool name before barging in</h4>
-                        </q-card-section>
-
-                        <q-card-actions align="right">
-                            <button
-                                @click="!emptyUserNameAlert"
-                                class="emptyUserNameAlertBtn"
-                                v-close-popup
-                            >
-                                OK
-                            </button>
-                        </q-card-actions>
-                    </q-card>
-                </q-dialog>
                 <div>
                     <input
                         v-model="chatroomName"
@@ -117,7 +115,8 @@ export default {
             chosenChatroom: undefined,
             autoUpdateIntervalID: undefined,
             userConfirmed: false,
-            emptyUserNameAlert: false
+            customAlert: false,
+            customAlertText: ""
         };
     },
     computed: {
@@ -146,10 +145,12 @@ export default {
         }
     },
     methods: {
-        confirmUserName() {
-            this.userConfirmed = true;
-        },
         createChatroom() {
+            if (this.chatroomName.length > 20) {
+                this.customAlert = true;
+                this.customAlertText = "Sorry mate, need to trim your cool name down to 20 characters.";
+                return;
+            }
             const chatName = (this.chatroomName === "") ? "Anson's Default Chatroom" : this.chatroomName;
             this.chatroomName = "";
             const document = {
@@ -211,6 +212,19 @@ export default {
         },
         clear() {
             clearInterval(this.autoUpdateIntervalID);
+        confirmUserName() {
+            if (this.userName === "") {
+                this.customAlert = true;
+                this.customAlertText = "Think of a cool name before barging in!";
+                return;
+            }
+            if (this.userName.length > 10) {
+                this.customAlert = true;
+                this.customAlertText = "Calm down, cool person. Trim your coolness down to 10 characters please.";
+                return;
+            }
+            this.userConfirmed = true;
+        },
         },
         displayTime(unix) {
             return (new Date(unix).toLocaleString("en-GB"));
