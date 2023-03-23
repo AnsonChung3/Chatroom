@@ -4,13 +4,6 @@ function LoadPage(component) {
 
 const routes = [
     {
-        path: "/",
-        component: () => import("layouts/MainLayout.vue"),
-        children: [
-            { path: "", component: LoadPage("Index") }
-        ]
-    },
-    {
         path: "/PortfolioProject",
         component: () => import("layouts/chatroomLayout.vue"),
         children: [
