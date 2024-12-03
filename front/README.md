@@ -43,17 +43,17 @@ $ docker run --name chatroom_backend_container --network portfolio_network -d -p
 ```
 
 ## Challenges when developing
-1. Using MongoDB
+1. Using MongoDB. 
 This is the first time for me to use any databse. I acquired some new skills along development:
 - understand how databse work
 - navigate through documentations for database methods
 - work with Motor, the official driver for Python
-- running a Docker contain of Mongo databse with the backend
+- running containerised Mongo databse, and backend
 
-2. Using user-defined Docker network
+2. Using user-defined Docker network. 
 Running 2 containers run on a user defined network simultaneously.
 
-3. Better understanding for request handling and asynchronous functions
+3. Better understanding for request handling and asynchronous functions. 
 To handle request and work the database methods for insert/retrieve data, needs a good understanding of coroutine and how to implement it.
 In this specific project, to run the backend async was not neccessary, but it was nice to have.
 
@@ -77,15 +77,15 @@ However, I had to use Git commands to push.
 - explored new CSS settings such as overflow-wrap, border-radius, and box-sizing
 
 ## What did I do not so well
-1. Mixed up projects in one folder
+1. Mixed up projects in one folder. 
 There was an attempt to make a template based on this specific folder.
 Template related content was removed in the process of doing this project.
 
-2. Messed up init commit
+2. Messed up init commit. 
 Authentication and connection problem with SourceTree grately discouraged me to use the software at the beginning of the project.
 Init commit was made half way development. It was not ideal in both version histroy/control.
 
-## Goal for coming prjects
+## Goal for coming projects
 1. Start new project for separate tasks, alternatively, branch out if it's a feature related to the main project
 2. Try fixing SourceTree
 
