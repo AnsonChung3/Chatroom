@@ -1,5 +1,4 @@
 FROM python:3
-WORKDIR D/Coding/FrontBackCombinedProto/back
 RUN pip install aiohttp
 RUN pip install aiohttp_cors
 RUN python3 -m pip install motor
