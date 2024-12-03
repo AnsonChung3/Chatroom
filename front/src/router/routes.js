@@ -4,10 +4,11 @@ function LoadPage(component) {
 
 const routes = [
     {
-        path: "/Chatroom",
+        path: "/",
         component: () => import("layouts/chatroomLayout.vue"),
         children: [
-            { path: "", component: LoadPage("chatroom") }
+            { path: "", redirect: 'Chatroom' },
+            { path: "Chatroom", component: LoadPage("chatroom") }
         ]
     },
 
